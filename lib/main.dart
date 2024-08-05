@@ -9,15 +9,23 @@ import 'package:weather_app/features/weather/domain/weather_repository.dart';
 import 'package:weather_app/features/weather/presentation/view/current_weather.dart';
 import 'package:weather_app/services/config.dart';
 import 'package:weather_app/services/network_client.dart';
-import 'package:weather_app/services/app_setup.dart';
 
 Future main() async {
-  await AppSetup().setupServices();
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  final config = Config();
+  await config.loadConfig();
+  runApp(
+    MyApp(config: config),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Config config;
+
+  const MyApp({
+    super.key,
+    required this.config,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,6 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider(
           create: (context) {
-            final config = getIt<Config>();
             return WeatherApiProvider(
               networkClient: NetworkClient(
                 config.currentWeatherApi,
