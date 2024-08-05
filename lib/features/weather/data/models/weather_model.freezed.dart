@@ -22,7 +22,10 @@ WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) {
 mixin _$WeatherModel {
   MainModel? get main => throw _privateConstructorUsedError;
   @JsonKey(name: 'weather')
-  List<Precipitation> get precipation => throw _privateConstructorUsedError;
+  List<Precipitation> get precipation =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'name')
+  String? get locationName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +41,8 @@ abstract class $WeatherModelCopyWith<$Res> {
   @useResult
   $Res call(
       {MainModel? main,
-      @JsonKey(name: 'weather') List<Precipitation> precipation});
+      @JsonKey(name: 'weather') List<Precipitation> precipation,
+      @JsonKey(name: 'name') String? locationName});
 
   $MainModelCopyWith<$Res>? get main;
 }
@@ -58,6 +62,7 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
   $Res call({
     Object? main = freezed,
     Object? precipation = null,
+    Object? locationName = freezed,
   }) {
     return _then(_value.copyWith(
       main: freezed == main
@@ -68,6 +73,10 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
           ? _value.precipation
           : precipation // ignore: cast_nullable_to_non_nullable
               as List<Precipitation>,
+      locationName: freezed == locationName
+          ? _value.locationName
+          : locationName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -94,7 +103,8 @@ abstract class _$$WeatherModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {MainModel? main,
-      @JsonKey(name: 'weather') List<Precipitation> precipation});
+      @JsonKey(name: 'weather') List<Precipitation> precipation,
+      @JsonKey(name: 'name') String? locationName});
 
   @override
   $MainModelCopyWith<$Res>? get main;
@@ -113,6 +123,7 @@ class __$$WeatherModelImplCopyWithImpl<$Res>
   $Res call({
     Object? main = freezed,
     Object? precipation = null,
+    Object? locationName = freezed,
   }) {
     return _then(_$WeatherModelImpl(
       main: freezed == main
@@ -123,6 +134,10 @@ class __$$WeatherModelImplCopyWithImpl<$Res>
           ? _value._precipation
           : precipation // ignore: cast_nullable_to_non_nullable
               as List<Precipitation>,
+      locationName: freezed == locationName
+          ? _value.locationName
+          : locationName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -133,7 +148,8 @@ class _$WeatherModelImpl implements _WeatherModel {
   const _$WeatherModelImpl(
       {this.main,
       @JsonKey(name: 'weather')
-      final List<Precipitation> precipation = const []})
+      final List<Precipitation> precipation = const [],
+      @JsonKey(name: 'name') this.locationName})
       : _precipation = precipation;
 
   factory _$WeatherModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -150,9 +166,14 @@ class _$WeatherModelImpl implements _WeatherModel {
     return EqualUnmodifiableListView(_precipation);
   }
 
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: 'name')
+  final String? locationName;
+
   @override
   String toString() {
-    return 'WeatherModel(main: $main, precipation: $precipation)';
+    return 'WeatherModel(main: $main, precipation: $precipation, locationName: $locationName)';
   }
 
   @override
@@ -162,13 +183,15 @@ class _$WeatherModelImpl implements _WeatherModel {
             other is _$WeatherModelImpl &&
             (identical(other.main, main) || other.main == main) &&
             const DeepCollectionEquality()
-                .equals(other._precipation, _precipation));
+                .equals(other._precipation, _precipation) &&
+            (identical(other.locationName, locationName) ||
+                other.locationName == locationName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, main, const DeepCollectionEquality().hash(_precipation));
+  int get hashCode => Object.hash(runtimeType, main,
+      const DeepCollectionEquality().hash(_precipation), locationName);
 
   @JsonKey(ignore: true)
   @override
@@ -186,9 +209,9 @@ class _$WeatherModelImpl implements _WeatherModel {
 
 abstract class _WeatherModel implements WeatherModel {
   const factory _WeatherModel(
-          {final MainModel? main,
-          @JsonKey(name: 'weather') final List<Precipitation> precipation}) =
-      _$WeatherModelImpl;
+      {final MainModel? main,
+      @JsonKey(name: 'weather') final List<Precipitation> precipation,
+      @JsonKey(name: 'name') final String? locationName}) = _$WeatherModelImpl;
 
   factory _WeatherModel.fromJson(Map<String, dynamic> json) =
       _$WeatherModelImpl.fromJson;
@@ -198,6 +221,9 @@ abstract class _WeatherModel implements WeatherModel {
   @override
   @JsonKey(name: 'weather')
   List<Precipitation> get precipation;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'name')
+  String? get locationName;
   @override
   @JsonKey(ignore: true)
   _$$WeatherModelImplCopyWith<_$WeatherModelImpl> get copyWith =>

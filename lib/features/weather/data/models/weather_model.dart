@@ -14,7 +14,12 @@ class WeatherModel with _$WeatherModel {
     @JsonKey(
       name: 'weather',
     )
-    List<Precipitation> precipation,
+    final List<Precipitation> precipation,
+    // ignore: invalid_annotation_target
+    @JsonKey(
+      name: 'name',
+    )
+    final String? locationName,
   }) = _WeatherModel;
 
   factory WeatherModel.fromJson(Map<String, Object?> json) => _$WeatherModelFromJson(json);

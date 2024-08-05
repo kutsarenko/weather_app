@@ -15,10 +15,12 @@ _$WeatherModelImpl _$$WeatherModelImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => Precipitation.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      locationName: json['name'] as String?,
     );
 
 Map<String, dynamic> _$$WeatherModelImplToJson(_$WeatherModelImpl instance) =>
     <String, dynamic>{
       'main': instance.main,
       'weather': instance.precipation,
+      'name': instance.locationName,
     };

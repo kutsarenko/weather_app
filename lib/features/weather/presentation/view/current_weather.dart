@@ -39,6 +39,7 @@ class CurrentWeatherView extends StatelessWidget {
             fetchSuccess: (data) {
               final MainModel? main = data.weather.main;
               final List<Precipitation> precipitation = data.weather.precipation;
+              final String? location = data.weather.locationName;
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -49,11 +50,10 @@ class CurrentWeatherView extends StatelessWidget {
                       ),
                     if (precipitation.isNotEmpty && precipitation.first.description?.isNotEmpty == true)
                       Text(precipitation.first.description!),
-
-                    /// TODO: Добавить вывод текущей локации
-                    // Text(
-                    //   'Location: ',
-                    // ),
+                    if (location != null)
+                      Text(
+                        'Location: $location',
+                      ),
                   ],
                 ),
               );
