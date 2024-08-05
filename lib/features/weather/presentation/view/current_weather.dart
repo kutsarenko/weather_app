@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/features/geolocator/domain/geolocator_repository.dart';
 import 'package:weather_app/features/weather/data/models/main_model.dart';
 import 'package:weather_app/features/weather/data/models/precipitation.dart';
 import 'package:weather_app/features/weather/domain/weather_repository.dart';
 import 'package:weather_app/features/weather/presentation/cubits/current_weather_cubit/current_weather_cubit.dart';
-
-/// TODO: Удалить после создания блока с логикой геолокатора
-const String _location = 'Gomel';
 
 class CurrentWeather extends StatelessWidget {
   const CurrentWeather({super.key});
@@ -15,8 +13,9 @@ class CurrentWeather extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CurrentWeatherCubit(
-        context.read<WeatherRepository>(),
-      )..fetchCurrentWeather(_location),
+        weatherRepository: context.read<WeatherRepository>(),
+        geolocatorRepository: context.read<GeolocatorRepository>(),
+      )..fetchCurrentWeather(),
       child: const CurrentWeatherView(),
     );
   }
@@ -37,10 +36,9 @@ class CurrentWeatherView extends StatelessWidget {
             error: (error) => Center(
               child: Text('Error: $error'),
             ),
-            fetchSuccess: (model) {
-              MainModel? main = model.weather.main;
-              List<Precipitation> precipitation = model.weather.precipation;
-              print('precipitation - ${precipitation}');
+            fetchSuccess: (data) {
+              final MainModel? main = data.weather.main;
+              final List<Precipitation> precipitation = data.weather.precipation;
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -51,6 +49,11 @@ class CurrentWeatherView extends StatelessWidget {
                       ),
                     if (precipitation.isNotEmpty && precipitation.first.description?.isNotEmpty == true)
                       Text(precipitation.first.description!),
+
+                    /// TODO: Добавить вывод текущей локации
+                    // Text(
+                    //   'Location: ',
+                    // ),
                   ],
                 ),
               );

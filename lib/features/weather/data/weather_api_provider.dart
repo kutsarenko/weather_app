@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:weather_app/features/geolocator/data/models/geo_dto_model.dart';
 import 'package:weather_app/features/weather/data/models/weather_model.dart';
 import 'package:weather_app/features/weather/data/weather_endpoints.dart';
 import 'package:weather_app/services/network_client.dart';
@@ -15,13 +16,14 @@ class WeatherApiProvider {
     required this.apiKey,
   });
 
-  Future<WeatherModel> getCurrentWeather(String location) async {
+  Future<WeatherModel> getCurrentWeather(GeoDtoModel geoDta) async {
     try {
       logger.i('start fetching current weather...');
       final response = await networkClient.dio.get(
         _endpoints.currentWeather,
         queryParameters: {
-          'q': location,
+          'lat': geoDta.latitude,
+          'lon': geoDta.longitude,
           'appid': apiKey,
         },
       );
@@ -36,7 +38,7 @@ class WeatherApiProvider {
     }
   }
 
-  Future<List<WeatherModel>> getWeatherForFiveDays(String location) async {
+  Future<List<WeatherModel>> getWeatherForFiveDays(GeoDtoModel geoData) async {
     try {
       logger.i('start fetching weather for 5 days...');
 

@@ -19,21 +19,22 @@ mixin _$CurrentWeatherState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(WeatherModel weather) fetchSuccess,
+    required TResult Function(WeatherModel weather, GeoDtoModel location)
+        fetchSuccess,
     required TResult Function(String error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(WeatherModel weather)? fetchSuccess,
+    TResult? Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult? Function(String error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(WeatherModel weather)? fetchSuccess,
+    TResult Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) =>
@@ -123,7 +124,8 @@ class _$CurrentWeatherLoadingStateImpl implements CurrentWeatherLoadingState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(WeatherModel weather) fetchSuccess,
+    required TResult Function(WeatherModel weather, GeoDtoModel location)
+        fetchSuccess,
     required TResult Function(String error) error,
   }) {
     return loading();
@@ -133,7 +135,7 @@ class _$CurrentWeatherLoadingStateImpl implements CurrentWeatherLoadingState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(WeatherModel weather)? fetchSuccess,
+    TResult? Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult? Function(String error)? error,
   }) {
     return loading?.call();
@@ -143,7 +145,7 @@ class _$CurrentWeatherLoadingStateImpl implements CurrentWeatherLoadingState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(WeatherModel weather)? fetchSuccess,
+    TResult Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -199,7 +201,7 @@ abstract class _$$CurrentWeatherSuccessStateImplCopyWith<$Res> {
           $Res Function(_$CurrentWeatherSuccessStateImpl) then) =
       __$$CurrentWeatherSuccessStateImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({WeatherModel weather});
+  $Res call({WeatherModel weather, GeoDtoModel location});
 
   $WeatherModelCopyWith<$Res> get weather;
 }
@@ -218,12 +220,17 @@ class __$$CurrentWeatherSuccessStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? weather = null,
+    Object? location = null,
   }) {
     return _then(_$CurrentWeatherSuccessStateImpl(
-      null == weather
+      weather: null == weather
           ? _value.weather
           : weather // ignore: cast_nullable_to_non_nullable
               as WeatherModel,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as GeoDtoModel,
     ));
   }
 
@@ -239,14 +246,17 @@ class __$$CurrentWeatherSuccessStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CurrentWeatherSuccessStateImpl implements CurrentWeatherSuccessState {
-  const _$CurrentWeatherSuccessStateImpl(this.weather);
+  const _$CurrentWeatherSuccessStateImpl(
+      {required this.weather, required this.location});
 
   @override
   final WeatherModel weather;
+  @override
+  final GeoDtoModel location;
 
   @override
   String toString() {
-    return 'CurrentWeatherState.fetchSuccess(weather: $weather)';
+    return 'CurrentWeatherState.fetchSuccess(weather: $weather, location: $location)';
   }
 
   @override
@@ -254,11 +264,13 @@ class _$CurrentWeatherSuccessStateImpl implements CurrentWeatherSuccessState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CurrentWeatherSuccessStateImpl &&
-            (identical(other.weather, weather) || other.weather == weather));
+            (identical(other.weather, weather) || other.weather == weather) &&
+            (identical(other.location, location) ||
+                other.location == location));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, weather);
+  int get hashCode => Object.hash(runtimeType, weather, location);
 
   @JsonKey(ignore: true)
   @override
@@ -271,32 +283,33 @@ class _$CurrentWeatherSuccessStateImpl implements CurrentWeatherSuccessState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(WeatherModel weather) fetchSuccess,
+    required TResult Function(WeatherModel weather, GeoDtoModel location)
+        fetchSuccess,
     required TResult Function(String error) error,
   }) {
-    return fetchSuccess(weather);
+    return fetchSuccess(weather, location);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(WeatherModel weather)? fetchSuccess,
+    TResult? Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult? Function(String error)? error,
   }) {
-    return fetchSuccess?.call(weather);
+    return fetchSuccess?.call(weather, location);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(WeatherModel weather)? fetchSuccess,
+    TResult Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (fetchSuccess != null) {
-      return fetchSuccess(weather);
+      return fetchSuccess(weather, location);
     }
     return orElse();
   }
@@ -337,10 +350,12 @@ class _$CurrentWeatherSuccessStateImpl implements CurrentWeatherSuccessState {
 }
 
 abstract class CurrentWeatherSuccessState implements CurrentWeatherState {
-  const factory CurrentWeatherSuccessState(final WeatherModel weather) =
-      _$CurrentWeatherSuccessStateImpl;
+  const factory CurrentWeatherSuccessState(
+      {required final WeatherModel weather,
+      required final GeoDtoModel location}) = _$CurrentWeatherSuccessStateImpl;
 
   WeatherModel get weather;
+  GeoDtoModel get location;
   @JsonKey(ignore: true)
   _$$CurrentWeatherSuccessStateImplCopyWith<_$CurrentWeatherSuccessStateImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -415,7 +430,8 @@ class _$CurrentWeatherErrorStateImpl implements CurrentWeatherErrorState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(WeatherModel weather) fetchSuccess,
+    required TResult Function(WeatherModel weather, GeoDtoModel location)
+        fetchSuccess,
     required TResult Function(String error) error,
   }) {
     return error(this.error);
@@ -425,7 +441,7 @@ class _$CurrentWeatherErrorStateImpl implements CurrentWeatherErrorState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(WeatherModel weather)? fetchSuccess,
+    TResult? Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult? Function(String error)? error,
   }) {
     return error?.call(this.error);
@@ -435,7 +451,7 @@ class _$CurrentWeatherErrorStateImpl implements CurrentWeatherErrorState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(WeatherModel weather)? fetchSuccess,
+    TResult Function(WeatherModel weather, GeoDtoModel location)? fetchSuccess,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
